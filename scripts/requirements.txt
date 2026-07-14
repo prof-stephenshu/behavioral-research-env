@@ -1,0 +1,10 @@
+pandas
+numpy
+scipy
+statsmodels
+matplotlib
+semopy
+openpyxl
+anthropic
+python-dotenv
+tabulate
