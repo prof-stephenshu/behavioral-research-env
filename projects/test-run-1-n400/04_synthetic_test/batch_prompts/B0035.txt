@@ -1,0 +1,125 @@
+You are simulating multiple independent synthetic human research participants for a behavioral science experiment. Respond in character for each subject separately and independently: do not let one subject's reasoning bleed into another's, and expect people with different profiles to genuinely reach different decisions -- do not default to the same 'reasonable' answer for everyone regardless of profile. None of these subjects are an AI assistant; they are ordinary people with the traits described below (numeracy, financial literacy, loss aversion, present bias, personality, etc. as given).
+
+Here is what each condition group saw:
+
+=== CONDITION: condition_1 ===
+Please read all instructions in this survey carefully. In this survey we would like to learn about how you would make a savings decision.
+
+Suppose you have just signed up to use a financial services app provided by a trustworthy company for use on your mobile phone. The mobile app allows you to: save spare change by rounding up purchases to the next dollar, make one-time deposits into your account at any time you choose, and invest all or a portion of your money into pre-designed financial portfolios that are tailored to your goals, such as by degree of risk and return.
+
+Question 1: Imagine you are using the app, and it tells you "Investing on a regular basis is one of the best ways to grow your wealth. You can get started with $5 a day today." I choose (please select one): Not now / Yes, start saving
+
+Question 2: Recall the previous question, where you were given an option to save $5 a day today. What was your attitude toward this option? (1=Strongly disagree ... 7=Strongly agree) a) I found the option to be affordable. b) I found the description of the option to be clear and understandable.
+
+Question 3: Please list three things you were thinking about when you were given an option to save $5 a day today.
+
+=== CONDITION: condition_2 ===
+Please read all instructions in this survey carefully. In this survey we would like to learn about how you would make a savings decision.
+
+Suppose you have just signed up to use a financial services app provided by a trustworthy company for use on your mobile phone. The mobile app allows you to: save spare change by rounding up purchases to the next dollar, make one-time deposits into your account at any time you choose, and invest all or a portion of your money into pre-designed financial portfolios that are tailored to your goals, such as by degree of risk and return.
+
+Question 1: Imagine you are using the app, and it tells you "Investing on a regular basis is one of the best ways to grow your wealth. You can get started with $150 a month today." I choose (please select one): Not now / Yes, start saving
+
+Question 2: Recall the previous question, where you were given an option to save $150 a month today. What was your attitude toward this option? (1=Strongly disagree ... 7=Strongly agree) a) I found the option to be affordable. b) I found the description of the option to be clear and understandable.
+
+Question 3: Please list three things you were thinking about when you were given an option to save $150 a month today.
+
+Here are the subjects to simulate, each already assigned to one of the conditions above:
+
+--- Subject S00341 (condition: condition_2) ---
+- age: 38.7
+- gender: female
+- income bracket: 9.0
+- education level: high_school
+- financial literacy: 1.0
+- subjective numeracy: 14.0
+
+--- Subject S00342 (condition: condition_2) ---
+- age: 18.0
+- gender: male
+- income bracket: 2.0
+- education level: advanced_degree
+- financial literacy: 2.0
+- subjective numeracy: 15.0
+
+--- Subject S00343 (condition: condition_2) ---
+- age: 22.12
+- gender: female
+- income bracket: 10.0
+- education level: college_degree
+- financial literacy: 1.0
+- subjective numeracy: 12.0
+
+--- Subject S00344 (condition: condition_2) ---
+- age: 32.98
+- gender: male
+- income bracket: 4.0
+- education level: advanced_degree
+- financial literacy: 2.0
+- subjective numeracy: 13.0
+
+--- Subject S00345 (condition: condition_1) ---
+- age: 29.43
+- gender: female
+- income bracket: 5.0
+- education level: college_degree
+- financial literacy: 2.0
+- subjective numeracy: 18.0
+
+--- Subject S00346 (condition: condition_1) ---
+- age: 28.53
+- gender: female
+- income bracket: 4.0
+- education level: advanced_degree
+- financial literacy: 2.0
+- subjective numeracy: 10.0
+
+--- Subject S00347 (condition: condition_2) ---
+- age: 27.83
+- gender: male
+- income bracket: 2.0
+- education level: college_degree
+- financial literacy: 3.0
+- subjective numeracy: 18.0
+
+--- Subject S00348 (condition: condition_1) ---
+- age: 41.59
+- gender: female
+- income bracket: 11.0
+- education level: advanced_degree
+- financial literacy: 3.0
+- subjective numeracy: 17.0
+
+--- Subject S00349 (condition: condition_2) ---
+- age: 35.32
+- gender: female
+- income bracket: 5.0
+- education level: college_degree
+- financial literacy: 0.0
+- subjective numeracy: 16.0
+
+--- Subject S00350 (condition: condition_2) ---
+- age: 38.27
+- gender: male
+- income bracket: 7.0
+- education level: college_degree
+- financial literacy: 3.0
+- subjective numeracy: 13.0
+
+For each subject, decide how that specific person would respond and report:
+  - "choice": one of ['Not now', 'Yes, start saving'] -- Whether the subject chooses to start saving after seeing the app's prompt.
+  - "affordability_rating": a number (numeric, 1-7) -- I found the option to be affordable (1=strongly disagree, 7=strongly agree).
+  - "clarity_rating": a number (numeric, 1-7) -- I found the description of the option to be clear and understandable (1=strongly disagree, 7=strongly agree).
+  - "reasoning": List three things you were thinking about when given this savings option, in your own words, as this subject.
+
+Respond with ONLY a JSON array, one object per subject, in this exact shape (one example subject shown), with no text before or after the array:
+
+[
+  {
+    "subject_id": "S00341",
+    "choice": "Not now",
+    "affordability_rating": 1,
+    "clarity_rating": 1,
+    "reasoning": "..."
+  }
+]
