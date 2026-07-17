@@ -33,7 +33,9 @@ def _categorical_balance(df, var, condition_col):
 
 
 def _continuous_balance(df, var, condition_col):
-    groups = [g[var].dropna().values for _, g in df.groupby(condition_col)]
+    # cast to float: some scipy versions (e.g. bartlett in scipy 1.18's array-api
+    # backend) fail on integer-dtype input with an internal NaN-assignment error
+    groups = [g[var].dropna().astype(float).values for _, g in df.groupby(condition_col)]
     f_stat, f_p = stats.f_oneway(*groups)
     bart_stat, bart_p = stats.bartlett(*groups)
     desc = df.groupby(condition_col)[var].agg(["mean", "std", "count"]).round(3)

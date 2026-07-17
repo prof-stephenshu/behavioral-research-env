@@ -104,9 +104,12 @@ def build_tool_schema(outcome_variable):
     for dv in outcome_variable.get("secondary", []):
         add_dv(dv)
 
+    reasoning_prompt = outcome_variable.get(
+        "reasoning_prompt", "Brief first-person explanation of why you decided this."
+    )
     properties["reasoning"] = {
         "type": "string",
-        "description": "Brief first-person explanation of why you decided this.",
+        "description": reasoning_prompt,
     }
     required.append("reasoning")
 
@@ -179,6 +182,9 @@ def build_batch_prompt(batch_rows, variable_meta, conditions, outcome_variable):
         example_obj[dv["name"]] = _example_value(dv)
     example_obj["reasoning"] = "..."
     example_json = json.dumps([example_obj], indent=2)
+    reasoning_prompt = outcome_variable.get(
+        "reasoning_prompt", "a brief first-person explanation in that subject's voice"
+    )
 
     return (
         "You are simulating multiple independent synthetic human research participants "
@@ -196,7 +202,7 @@ def build_batch_prompt(batch_rows, variable_meta, conditions, outcome_variable):
         f"{subject_sections}\n\n"
         "For each subject, decide how that specific person would respond and report:\n"
         f"{dv_spec_lines}\n"
-        "  - \"reasoning\": a brief first-person explanation in that subject's voice\n\n"
+        f"  - \"reasoning\": {reasoning_prompt}\n\n"
         "Respond with ONLY a JSON array, one object per subject, in this exact shape "
         "(one example subject shown), with no text before or after the array:\n\n"
         f"{example_json}"

@@ -1,0 +1,23 @@
+{
+  "mode": "subagent",
+  "conditions": {
+    "condition_1": "Please read all instructions in this survey carefully. In this survey we would like to learn about how you would make a savings decision.\n\nSuppose you have just signed up to use a financial services app provided by a trustworthy company for use on your mobile phone. The mobile app allows you to: save spare change by rounding up purchases to the next dollar, make one-time deposits into your account at any time you choose, and invest all or a portion of your money into pre-designed financial portfolios that are tailored to your goals, such as by degree of risk and return.\n\nQuestion 1: Imagine you are using the app, and it tells you \"Investing on a regular basis is one of the best ways to grow your wealth. You can get started with $5 a day today.\" I choose (please select one): Not now / Yes, start saving\n\nQuestion 2: Recall the previous question, where you were given an option to save $5 a day today. What was your attitude toward this option? (1=Strongly disagree ... 7=Strongly agree) a) I found the option to be affordable. b) I found the description of the option to be clear and understandable.\n\nQuestion 3: Please list three things you were thinking about when you were given an option to save $5 a day today.",
+    "condition_2": "Please read all instructions in this survey carefully. In this survey we would like to learn about how you would make a savings decision.\n\nSuppose you have just signed up to use a financial services app provided by a trustworthy company for use on your mobile phone. The mobile app allows you to: save spare change by rounding up purchases to the next dollar, make one-time deposits into your account at any time you choose, and invest all or a portion of your money into pre-designed financial portfolios that are tailored to your goals, such as by degree of risk and return.\n\nQuestion 1: Imagine you are using the app, and it tells you \"Investing on a regular basis is one of the best ways to grow your wealth. You can get started with $150 a month today.\" I choose (please select one): Not now / Yes, start saving\n\nQuestion 2: Recall the previous question, where you were given an option to save $150 a month today. What was your attitude toward this option? (1=Strongly disagree ... 7=Strongly agree) a) I found the option to be affordable. b) I found the description of the option to be clear and understandable.\n\nQuestion 3: Please list three things you were thinking about when you were given an option to save $150 a month today."
+  },
+  "outcome_variable": {
+    "name": "choice",
+    "type": "binary",
+    "options": ["Not now", "Yes, start saving"],
+    "description": "Whether the subject chooses to start saving after seeing the app's prompt.",
+    "reasoning_prompt": "List three things you were thinking about when given this savings option, in your own words, as this subject.",
+    "secondary": [
+      {"name": "affordability_rating", "type": "continuous", "scale_min": 1, "scale_max": 7, "description": "I found the option to be affordable (1=strongly disagree, 7=strongly agree)."},
+      {"name": "clarity_rating", "type": "continuous", "scale_min": 1, "scale_max": 7, "description": "I found the description of the option to be clear and understandable (1=strongly disagree, 7=strongly agree)."}
+    ]
+  },
+  "batch_size": 10,
+  "agent_type": "general-purpose",
+  "model": "claude-sonnet-5",
+  "max_concurrency": 20,
+  "max_tokens": 500
+}

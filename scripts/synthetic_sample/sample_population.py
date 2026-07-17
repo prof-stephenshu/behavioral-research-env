@@ -26,7 +26,9 @@ Config schema (population_config.json):
     {"name": "gender", "kind": "categorical", "role": "demographic",
      "categories": ["female", "male", "nonbinary"], "probabilities": [0.51, 0.47, 0.02]},
     {"name": "financial_literacy", "kind": "continuous", "role": "individual_difference",
-     "mean": 0, "sd": 1}
+     "mean": 0, "sd": 1},
+    {"name": "income_bracket", "kind": "continuous", "role": "demographic",
+     "mean": 5.29, "sd": 3.2, "min": 1, "max": 16, "round": true}
   ],
   "correlations": [
     {"var1": "income", "var2": "financial_literacy", "rho": 0.3}
@@ -79,6 +81,8 @@ def _sample_continuous_block(n_total, variables, correlations, rng):
             col = np.maximum(col, v["min"])
         if "max" in v:
             col = np.minimum(col, v["max"])
+        if v.get("round"):
+            col = np.round(col).astype(int)
         out[v["name"]] = col
     return pd.DataFrame(out)
 
