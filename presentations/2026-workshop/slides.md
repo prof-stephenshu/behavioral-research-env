@@ -70,11 +70,7 @@ behavioral-research-env/
 
 ## The 9-stage behavioral research pipeline
 
-1. Behavioral audit  2. Solution ideation  3. **Solution design**
-4. **Synthetic A/B test**  5. **Data analysis**  6. Presentation
-7. **Scientific writeup**  8. Revised solution  9. Feedback
-
-Bold = built in this workshop's environment
+![](assets/pipeline_diagram.png)
 
 ## Scoping calls: what we built, and why
 
@@ -89,6 +85,31 @@ Bold = built in this workshop's environment
 - Claude Code reads the skill and follows it like a checklist/procedure
 - Heavy lifting (statistics, sampling) lives in **Python scripts** the skill calls out to
 - Why split it this way: skills handle judgment and conversation; scripts handle anything that needs to be exactly reproducible
+
+## What a Skill actually looks like
+
+This project's real `behavioral-design/SKILL.md` (trimmed):
+
+```
+---
+name: behavioral-design
+description: Stage 3 of the behavioral research workflow. Use when
+  the user wants to set up a control-vs-treatment behavioral test...
+---
+
+## Required inputs
+
+1. Control condition stimulus
+2. Treatment condition stimulus
+3. Population to sample
+4. Outcome variable
+
+Do not ask about idea generation, alternative conditions, or design
+strategy -- there is exactly one control and one treatment condition.
+```
+
+- `name` + `description` tell Claude Code *when* to use this skill
+- The body is plain-English instructions -- not code
 
 ## Stage 3 in practice
 
@@ -119,6 +140,15 @@ Bold = built in this workshop's environment
   - Batch size 10: ~2,588 tokens/subject (**~4x more efficient**)
 - Subjects respond in-persona based on their sampled profile, not as "an AI"
 - **Blinding feature**: conditions can be tracked under neutral labels (Condition A/B) until the researcher chooses to reveal which is treatment -- avoids analyst bias
+
+## Stage 4: what the data actually looks like *(under the hood)*
+
+Every simulated subject becomes one row of `subjects_data.csv` (real rows shown, from this workshop's own N=400 run):
+
+| subject_id | age | condition | choice | affordability | clarity |
+|---|---|---|---|---|---|
+| S00001 | 32.3 | condition_1 (treatment) | Yes, start saving | 5 | 6 |
+| S00005 | 28.9 | condition_2 (control) | Not now | 3 | 4 |
 
 ## Stage 5 in practice
 
