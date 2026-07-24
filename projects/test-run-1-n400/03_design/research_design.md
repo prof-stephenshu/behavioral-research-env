@@ -9,7 +9,7 @@ Full-scale replication of `test-run-1` (N=20 pilot) at N=400. Same design, popul
 | condition_1 | Treatment | Financial savings app; savings option framed as "$5 a day" |
 | condition_2 | Control | Financial savings app; savings option framed as "$150 a month" |
 
-"Pennies-a-day" affordability-framing manipulation (see `test-run-1` for full rationale). Pilot at N=20 found a marginal (p~.08) ~2x increase in sign-up rate under the treatment framing; this run is powered to check whether that holds up at N=400 (200/condition).
+Temporal reframing manipulation (see `test-run-1` for full rationale). Pilot at N=20 found a marginal (p~.08) ~2x increase in sign-up rate under the treatment framing; this run is powered to check whether that holds up at N=400 (200/condition).
 
 ## Outcome variable
 

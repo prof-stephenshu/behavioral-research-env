@@ -14,7 +14,7 @@ No imbalance at conventional p<.05 across age, gender, income_bracket, education
 - Treatment (condition_1, "$5/day"): 80% signed up (SE .133)
 - Logit: treatment coefficient = +1.79 (p=.079, marginal at N=20)
 
-The "pennies-a-day" framing roughly doubled the sign-up rate relative to the equivalent monthly framing, consistent with the classic affordability-framing effect in the behavioral economics literature (smaller, more frequent amounts read as more affordable than the same total presented as a larger periodic sum).
+The temporal reframing manipulation roughly doubled the sign-up rate relative to the equivalent monthly framing, consistent with the classic affordability-framing effect in the behavioral economics literature (smaller, more frequent amounts read as more affordable than the same total presented as a larger periodic sum).
 
 ## Secondary outcomes
 

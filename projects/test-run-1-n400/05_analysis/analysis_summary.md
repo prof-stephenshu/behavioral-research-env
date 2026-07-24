@@ -27,4 +27,4 @@ Age, income_bracket, education, financial_literacy, and subjective_numeracy all 
 
 ## Takeaway
 
-The "pennies-a-day" framing effect holds up at scale: reframing $150/month as $5/day meaningfully increases both stated sign-up intent and perceived affordability, with no corresponding change in how clearly the offer was understood -- consistent with affordability perception (not comprehension) being the driving mechanism.
+The temporal reframing effect holds up at scale: reframing $150/month as $5/day meaningfully increases both stated sign-up intent and perceived affordability, with no corresponding change in how clearly the offer was understood -- consistent with affordability perception (not comprehension) being the driving mechanism.

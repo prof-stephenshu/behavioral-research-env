@@ -246,7 +246,7 @@ Each stage below is a Claude Code **Skill** -- a markdown instruction file the A
 
 ### Concrete example: a filled-in `population_config.json`
 
-This is an abbreviated version of the config used for the workshop's own pennies-a-day case study (N reduced for space):
+This is an abbreviated version of the config used for the workshop's own temporal reframing case study (N reduced for space):
 
 ```json
 {

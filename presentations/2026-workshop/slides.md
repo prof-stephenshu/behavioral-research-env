@@ -10,7 +10,7 @@ date: "2026"
 - Real human studies are slow and costly to iterate on
 - LLM-simulated subjects let you pressure-test a design *before* spending money on real recruitment
 - Question we'll answer today: does a synthetic sample actually behave like a real one?
-- Case study: a "pennies-a-day" savings framing experiment, run twice (N=20, then N=400) and checked against a real published study
+- Case study: a temporal reframing savings experiment, run twice (N=20, then N=400) and checked against a real published study
 
 ## Conceptual Architecture
 
@@ -116,7 +116,7 @@ Bold = built in this workshop's environment
 - Optional section: compare this run's statistics against a **published reference study**, with an explicit, stated classification rule (replicates / partially replicates / does not replicate)
 - Mediation/moderation excluded, matching Stage 5's scope
 
-## The design: pennies-a-day framing
+## The design: temporal reframing
 
 > "Investing on a regular basis is one of the best ways to grow your wealth. You can get started with **$5 a day** today." *(treatment)*
 >
