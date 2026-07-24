@@ -1,7 +1,7 @@
 ---
 title: "Building an AI-Assisted Behavioral Research Workflow"
 subtitle: "From environment setup to a synthetic replication of a published study"
-author: "Behavioral Research Workshop"
+author: "Stephen Shu"
 ---
 
 ## Why simulate behavioral experiments with LLM agents?
