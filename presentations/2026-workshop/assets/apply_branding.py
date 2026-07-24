@@ -14,7 +14,7 @@ from pptx.enum.text import PP_ALIGN
 NAVY = RGBColor(0x1F, 0x4E, 0x79)
 GRAY = RGBColor(0x59, 0x59, 0x59)
 
-COPYRIGHT_TEXT = "Copyright © 2026 Behavioral Research Workshop"
+COPYRIGHT_TEXT = "Copyright © 2026 Stephen Shu"
 
 
 def add_footer(slide, slide_number, slide_width, slide_height):

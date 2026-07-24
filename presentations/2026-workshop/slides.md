@@ -2,7 +2,6 @@
 title: "Building an AI-Assisted Behavioral Research Workflow"
 subtitle: "From environment setup to a synthetic replication of a published study"
 author: "Behavioral Research Workshop"
-date: "2026"
 ---
 
 ## Why simulate behavioral experiments with LLM agents?
@@ -88,28 +87,17 @@ behavioral-research-env/
 
 ## What a Skill actually looks like
 
-This project's real `behavioral-design/SKILL.md` (trimmed):
+This project's real `behavioral-design/SKILL.md` (trimmed) -- `name` + `description` tell Claude Code *when* to use it, the body is plain-English instructions:
 
 ```
 ---
 name: behavioral-design
-description: Stage 3 of the behavioral research workflow. Use when
-  the user wants to set up a control-vs-treatment behavioral test...
+description: Stage 3 -- set up a control-vs-treatment behavioral test
 ---
 
-## Required inputs
-
-1. Control condition stimulus
-2. Treatment condition stimulus
-3. Population to sample
-4. Outcome variable
-
-Do not ask about idea generation, alternative conditions, or design
-strategy -- there is exactly one control and one treatment condition.
+Required inputs: control stimulus, treatment stimulus,
+population to sample, outcome variable
 ```
-
-- `name` + `description` tell Claude Code *when* to use this skill
-- The body is plain-English instructions -- not code
 
 ## Stage 3 in practice
 
@@ -128,9 +116,9 @@ strategy -- there is exactly one control and one treatment condition.
 
 ## Stage 4: population sampling *(under the hood)*
 
-- Demographics + individual differences sampled from researcher-specified means/SDs (age, income, financial literacy, numeracy...)
-- Correlated variables drawn via a **Gaussian copula** so specified correlations (e.g. income <-> financial literacy) are respected
-- Ordinal/count variables (income bracket, literacy score) rounded to valid values
+- Demographics + individual differences sampled from researcher-specified means/SDs
+- Correlations *supported* via a Gaussian copula -- **not used here**: only marginal distributions were given, not correlation guidance
+- Ordinal/count variables (income bracket, literacy) rounded to valid values
 - Random, independent assignment to condition -- same mechanics as a real RCT
 
 ## Stage 4: subagent batching + blinding *(under the hood)*
@@ -216,6 +204,13 @@ This project's population statistics and stimulus wording turned out to match a 
 - They may **understate effect sizes** even when direction replicates (affordability)
 - They can **miss a mechanism entirely** (understandability) -- a reminder that synthetic samples are a tool for iteration, not a substitute for real data
 - Practical toolkit: skills + subagents + Python + pandoc, all orchestrated conversationally
+
+## AI Disclosure
+
+- This presentation and its companion workbook were themselves generated with Claude Code, using the exact workflow, skills, and prompt patterns described in this talk
+- Purpose: illustrative -- demonstrating the tool by using it on itself
+- All statistics, tables, and figures shown are real outputs from this workshop's actual project runs, not fabricated for effect
+- As with any AI-assisted work: review and verify before reusing
 
 ## Questions?
 
