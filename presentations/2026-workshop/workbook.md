@@ -31,13 +31,19 @@ That last row is the point worth remembering: a synthetic run can look convincin
 
 This section gets you from a bare machine to a working environment: VS Code, Claude Code, Python, and git/GitHub.
 
-## 1.1 Install VS Code and Claude Code
+**In plain English:** install VS Code and the Claude Code extension, then tell Claude Code what you need -- it runs the actual setup commands for you.
+
+![](assets/mockup_setup.png)
+
+Everything from here through the end of this section is the **"under the hood"** detail: the exact commands Claude Code runs on your behalf. You don't need to type any of it yourself -- it's here so you understand what's happening, and so you have it if something needs troubleshooting.
+
+## 1.1 Install VS Code and Claude Code *(under the hood)*
 
 1. Install **VS Code** from its official source.
 2. Install the **Claude Code** extension (or CLI) and sign in.
 3. Open a folder in VS Code -- this becomes your project's working directory.
 
-## 1.2 Install Python
+## 1.2 Install Python *(under the hood)*
 
 Check whether Python is already installed:
 
@@ -59,7 +65,7 @@ $userPath = [System.Environment]::GetEnvironmentVariable("Path","User")
 $env:Path = $machinePath + ";" + $userPath
 ```
 
-## 1.3 Create a project-local virtual environment
+## 1.3 Create a project-local virtual environment *(under the hood)*
 
 ```
 python -m venv .venv
@@ -82,7 +88,7 @@ tabulate
 
 (Add `anthropic` only if you plan to call the Claude API directly from a script, rather than using Claude Code subagents.)
 
-## 1.4 Install git and set up GitHub
+## 1.4 Install git and set up GitHub *(under the hood)*
 
 ```
 winget install --id Git.Git
@@ -106,7 +112,7 @@ git commit -m "Initial commit"
 gh repo create <repo-name> --private --source=. --remote=origin --push
 ```
 
-## 1.5 Install pandoc (for generating docx/pptx/pdf output)
+## 1.5 Install pandoc (for generating docx/pptx/pdf output) *(under the hood)*
 
 ```
 winget install --id JohnMacFarlane.Pandoc --scope user
@@ -192,6 +198,8 @@ Each stage below is a Claude Code **Skill** -- a markdown instruction file the A
 
 ## 3.1 Stage 3 -- Behavioral Design (intake)
 
+![](assets/mockup_stage3.png)
+
 **What it does:** takes your control stimulus, treatment stimulus, population description, and outcome variable(s), and turns them into a structured design package Stage 4 can consume.
 
 **Copy-paste prompt template:**
@@ -212,7 +220,23 @@ Each stage below is a Claude Code **Skill** -- a markdown instruction file the A
 
 ## 3.2 Stage 4 -- Synthetic A/B Test
 
+![](assets/mockup_stage4.png)
+
 **What it does:** samples a synthetic subject population, randomly assigns them to conditions, and collects each subject's response by simulating them with Claude (subagents, batched) or the direct API.
+
+**Copy-paste prompt template:**
+
+> Let's run the synthetic A/B test for [PROJECT-SLUG].
+>
+> Total N: [N]. Allocation: [equal / specify counts per condition].
+>
+> Use subagent mode with batch size [10 is a good default -- smaller batches are more reliable per-subject, larger batches are more token-efficient].
+
+**What you get back:** `subjects_frame.csv` (sampled profiles + condition), `subjects_data.csv` (profiles + condition + responses) -- spot-check a few rows before moving to analysis.
+
+### Under the hood: config file reference and a worked example
+
+Everything below is what Claude Code writes and reads behind the scenes -- useful if you want to inspect or hand-edit a config, not required to run the stage.
 
 **`population_config.json` field reference:**
 
@@ -233,16 +257,6 @@ Each stage below is a Claude Code **Skill** -- a markdown instruction file the A
 | `outcome_variable` | `{name, type, options/scale_min/scale_max, description, reasoning_prompt, secondary: [...]}` |
 | `batch_size` | subjects simulated per subagent call (default 10) |
 | `agent_type` | which subagent type to use (default `general-purpose`) |
-
-**Copy-paste prompt template:**
-
-> Let's run the synthetic A/B test for [PROJECT-SLUG].
->
-> Total N: [N]. Allocation: [equal / specify counts per condition].
->
-> Use subagent mode with batch size [10 is a good default -- smaller batches are more reliable per-subject, larger batches are more token-efficient].
-
-**What you get back:** `subjects_frame.csv` (sampled profiles + condition), `subjects_data.csv` (profiles + condition + responses) -- spot-check a few rows before moving to analysis.
 
 ### Concrete example: a filled-in `population_config.json`
 
@@ -292,6 +306,8 @@ Notice `round: true` on `income_bracket` and `financial_literacy` -- both are or
 
 ## 3.3 Stage 5 -- Data Analysis
 
+![](assets/mockup_stage5.png)
+
 **What it does:** checks randomization balance, runs regressions on your outcome variable(s), and produces bar charts.
 
 **Copy-paste prompt template:**
@@ -306,6 +322,8 @@ Notice `round: true` on `income_bracket` and `financial_literacy` -- both are or
 **What you get back:** `balance_report.md`, `regression_results_<outcome>.md`, `charts/<outcome>_by_condition.png` -- read the balance report first; if anything is flagged, consider re-running the regression with that variable as a control.
 
 ## 3.4 Stage 7 -- Research Writeup
+
+![](assets/mockup_stage7.png)
 
 **What it does:** assembles Method, Balance, and Results sections into a Word-ready document, optionally compared against a reference study.
 

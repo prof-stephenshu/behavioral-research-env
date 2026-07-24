@@ -25,15 +25,25 @@ date: "2026"
   - Can spawn **subagents**: independent Claude conversations for parallel work (this is how we simulate many subjects at once)
 - You talk to Claude Code in plain English; it takes the actions
 
-## Tooling stack
+## What it looks like in practice
+
+![No shell commands to memorize -- you describe the goal in the chat panel and Claude Code does the work.](assets/mockup_setup.png)
+
+## How to read the rest of this deck
+
+- The next few slides show this same pattern for every research stage: a chat mockup first, plain and simple
+- Slides marked *"Under the hood"* are optional depth for the curious -- skip them if plain English is all you need
+- Nothing under the hood is required reading to use the workflow yourself
+
+## Tooling stack *(under the hood)*
 
 - **Python** -- sampling, statistics, chart generation (pandas, numpy, scipy, statsmodels, matplotlib)
 - **git + GitHub** -- version control, collaboration, backup
 - **VS Code + Claude Code** -- the environment this all runs in
 - **pandoc** -- converts markdown into docx / pptx / pdf (used for writeups, this deck, and the workbook)
-- All of it installed and configured *by* Claude Code, conversationally
+- All of it installed and configured *by* Claude Code, conversationally -- you don't have to type any of what follows yourself
 
-## Concrete setup, warts and all
+## Concrete setup, warts and all *(under the hood)*
 
 - `python -m venv .venv` then `pip install -r scripts/requirements.txt`
 - `git init`, then `gh repo create --private --source=. --push`
@@ -42,7 +52,7 @@ date: "2026"
   - PATH changes don't persist between separate terminal commands -- each one needs its own PATH refresh
   - pandoc needs `--resource-path` to find images referenced by relative path
 
-## Resulting project layout
+## Resulting project layout *(under the hood)*
 
 ```
 behavioral-research-env/
@@ -80,21 +90,29 @@ Bold = built in this workshop's environment
 - Heavy lifting (statistics, sampling) lives in **Python scripts** the skill calls out to
 - Why split it this way: skills handle judgment and conversation; scripts handle anything that needs to be exactly reproducible
 
-## Stage 3: design intake
+## Stage 3 in practice
+
+![You describe your stimuli, population, and outcome in plain language -- Claude Code turns it into a structured design package. No file formats to learn.](assets/mockup_stage3.png)
+
+## Stage 3: design intake *(under the hood)*
 
 - Researcher provides: control stimulus, treatment stimulus, population description, outcome variable(s)
 - Skill validates completeness, asks only about genuine gaps
 - Produces a structured design package: `research_design.md`, `stimuli/*.md`, `population_spec.md`, `variables_spec.md`
 - Deliberately *not* a full ideation engine -- this version assumes the researcher already knows what they want to test
 
-## Stage 4: population sampling
+## Stage 4 in practice
+
+![You state a sample size and let Claude Code handle sampling and simulation -- behind this one message: population sampling, condition assignment, and dozens of simulated subject batches.](assets/mockup_stage4.png)
+
+## Stage 4: population sampling *(under the hood)*
 
 - Demographics + individual differences sampled from researcher-specified means/SDs (age, income, financial literacy, numeracy...)
 - Correlated variables drawn via a **Gaussian copula** so specified correlations (e.g. income <-> financial literacy) are respected
 - Ordinal/count variables (income bracket, literacy score) rounded to valid values
 - Random, independent assignment to condition -- same mechanics as a real RCT
 
-## Stage 4: subagent batching + blinding
+## Stage 4: subagent batching + blinding *(under the hood)*
 
 - Each **subagent** simulates a batch of ~10 subjects in one call -- batching matters:
   - Batch size 2: ~9,875 tokens/subject
@@ -102,14 +120,22 @@ Bold = built in this workshop's environment
 - Subjects respond in-persona based on their sampled profile, not as "an AI"
 - **Blinding feature**: conditions can be tracked under neutral labels (Condition A/B) until the researcher chooses to reveal which is treatment -- avoids analyst bias
 
-## Stage 5: analysis pipeline
+## Stage 5 in practice
+
+![One message gets you a balance check, a regression, and a chart -- plain-English results first, statistical detail if you want it.](assets/mockup_stage5.png)
+
+## Stage 5: analysis pipeline *(under the hood)*
 
 - **Balance check** -- are demographics/individual differences actually balanced across conditions? (chi-sq, F-test, Bartlett's)
 - **Regression** -- OLS or logit, with/without controls, on the primary and secondary outcomes
 - **Charts** -- outcome-by-condition bar charts with standard errors
 - A real bug caught here: pandas 3.0's new string dtype silently broke a dtype check -- always verify assumptions on real output, don't trust silently
 
-## Stage 7: writeup + reference comparison
+## Stage 7 in practice
+
+![One message produces a Word-ready document you can open, edit, and share -- optionally compared against a published study's statistics.](assets/mockup_stage7.png)
+
+## Stage 7: writeup + reference comparison *(under the hood)*
 
 - Assembles Method, Balance, and Results sections from the Stage 5 outputs into a single document
 - Markdown -> **pandoc** -> Word (.docx)
