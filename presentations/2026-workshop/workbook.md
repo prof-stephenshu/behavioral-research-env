@@ -5,6 +5,12 @@ author: "Stephen Shu"
 date: "2026"
 ---
 
+# How This Workbook Is Organized
+
+**Sections 1-6** walk through one concrete, already-completed case study -- a temporal reframing savings A/B test ("$5 a day" vs. "$150 a month" framing) -- built and run end-to-end with this project's own tools: **VS Code + Claude Code** for the agentic workflow, **Python** (pandas, numpy, scipy, statsmodels) for sampling and analysis, **git/GitHub** for version control, and **pandoc** for generating this workbook, the workshop deck, and the study writeup. Those sections assume the four Skills this case study used (Stages 3, 4, 5, 7) already exist, because they do, in this repository -- you're reading how they were used, not how to build them.
+
+**Section 7 (Appendix)** zooms out from that one case study: it's a general guide to setting up this kind of **9-stage** workflow for a *different* research topic, starting from a bare repository where none of those skill files exist yet. Read Sections 1-6 first to see the pattern in action end-to-end; read the Appendix when you're ready to build your own version of it.
+
 # Quick Start: the whole flow in one page
 
 If you only read one page before opening a terminal, read this one. Everything here is expanded later.
