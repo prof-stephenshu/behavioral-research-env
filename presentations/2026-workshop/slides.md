@@ -47,7 +47,7 @@ author: "Stephen Shu"
 - `python -m venv .venv` then `pip install -r scripts/requirements.txt`
 - `git init`, then `gh repo create --private --source=. --push`
 - Real snags hit along the way (useful to know, not just theory):
-  - `winget install` needed `--scope user` to dodge an admin-elevation prompt that silently failed in a non-interactive shell
+  - **winget** (Windows) needed `--scope user` to dodge a silent admin-elevation failure -- **Homebrew** (Mac) has no such prompt
   - PATH changes don't persist between separate terminal commands -- each one needs its own PATH refresh
   - pandoc needs `--resource-path` to find images referenced by relative path
 

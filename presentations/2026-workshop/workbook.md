@@ -45,19 +45,21 @@ Everything from here through the end of this section is the **"under the hood"**
 
 ## 1.2 Install Python *(under the hood)*
 
-Check whether Python is already installed:
+Check whether Python is already installed (same command on both platforms):
 
 ```
 python --version
 ```
 
-If it's missing (Windows sometimes shows a Microsoft Store stub instead of a real interpreter), install it:
+If it's missing, install it:
+
+**Windows** (Windows sometimes shows a Microsoft Store stub instead of a real interpreter):
 
 ```
 winget install Python.Python.3.12
 ```
 
-**Gotcha:** after installing anything with winget, PATH changes do not appear in your *current* terminal session automatically. Refresh it manually, or open a new terminal window:
+**Gotcha (Windows):** after installing anything with winget, PATH changes do not appear in your *current* terminal session automatically. Refresh it manually, or open a new terminal window:
 
 ```
 $machinePath = [System.Environment]::GetEnvironmentVariable("Path","Machine")
@@ -65,13 +67,33 @@ $userPath = [System.Environment]::GetEnvironmentVariable("Path","User")
 $env:Path = $machinePath + ";" + $userPath
 ```
 
+**macOS** (via Homebrew -- see `brew.sh` if you don't have it yet):
+
+```
+brew install python@3.12
+```
+
+**Gotcha (macOS):** this gotcha is about Homebrew itself, not Python -- if commands you just installed aren't found right after *installing Homebrew*, its own bin directory (`/opt/homebrew/bin` on Apple Silicon, `/usr/local/bin` on Intel) isn't on your `PATH` yet. The Homebrew installer prints an `eval "$(brew shellenv)"` line to add to `~/.zshrc`; add it, then open a new terminal or run `source ~/.zshrc`.
+
 ## 1.3 Create a project-local virtual environment *(under the hood)*
+
+**Windows (PowerShell):**
 
 ```
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install --upgrade pip
 .\.venv\Scripts\python.exe -m pip install -r scripts/requirements.txt
 ```
+
+**macOS (Terminal):**
+
+```
+python3 -m venv .venv
+.venv/bin/python -m pip install --upgrade pip
+.venv/bin/python -m pip install -r scripts/requirements.txt
+```
+
+(`python3` because a bare `python` isn't guaranteed to exist on macOS. Alternatively, `source .venv/bin/activate` once, then just call `python`/`pip` directly for the rest of the session.)
 
 A minimal `requirements.txt` for this kind of workflow:
 
@@ -90,12 +112,22 @@ tabulate
 
 ## 1.4 Install git and set up GitHub *(under the hood)*
 
+**Windows (PowerShell):**
+
 ```
 winget install --id Git.Git
 winget install --id GitHub.cli --source winget --scope user
 ```
 
-**Gotcha:** some winget installers try to trigger an admin-elevation (UAC) prompt, which silently fails in a non-interactive terminal. Adding `--scope user` installs to your user profile instead and avoids the prompt entirely.
+**Gotcha (Windows):** some winget installers try to trigger an admin-elevation (UAC) prompt, which silently fails in a non-interactive terminal. Adding `--scope user` installs to your user profile instead and avoids the prompt entirely.
+
+**macOS (Terminal):**
+
+```
+brew install git gh
+```
+
+**Gotcha (macOS):** macOS ships no `git` binary until either the Xcode Command Line Tools or Homebrew's own git are installed. If running `git` for the first time pops up a "Install Command Line Tools" prompt, accept it and wait for it to finish -- or install git via Homebrew above to skip that prompt entirely.
 
 Authenticate GitHub (this step is interactive -- run it yourself in a real terminal, not through an automation tool):
 
@@ -114,6 +146,8 @@ gh repo create <repo-name> --private --source=. --remote=origin --push
 
 ## 1.5 Install pandoc (for generating docx/pptx/pdf output) *(under the hood)*
 
+**Windows (PowerShell):**
+
 ```
 winget install --id JohnMacFarlane.Pandoc --scope user
 ```
@@ -124,13 +158,19 @@ PDF conversion additionally needs a rendering engine. A lightweight option:
 winget install --id Typst.Typst --scope user
 ```
 
-Then convert with:
+**macOS (Terminal):**
+
+```
+brew install pandoc typst
+```
+
+Then convert with (same command on both platforms):
 
 ```
 pandoc mydoc.md -o mydoc.pdf --pdf-engine=typst
 ```
 
-**Gotcha:** if your markdown embeds images by relative path, pandoc resolves paths relative to your *current directory*, not the markdown file's location. Fix with `--resource-path=".;path\to\assets"` or by running pandoc from the file's own directory.
+**Gotcha:** if your markdown embeds images by relative path, pandoc resolves paths relative to your *current directory*, not the markdown file's location. Fix with `--resource-path`, or by running pandoc from the file's own directory. The flag's syntax differs by platform: Windows uses `;`-separated, backslash paths (`--resource-path=".;path\to\assets"`); macOS/Linux use `:`-separated, forward-slash paths (`--resource-path=".:path/to/assets"`).
 
 ---
 
@@ -364,9 +404,11 @@ For comparison, the same N in **API mode** (opt-in, direct Anthropic API calls, 
 
 | Symptom | Cause | Fix |
 |---|---|---|
-| `winget install` reports success then the tool still isn't found | PATH updated on disk but not in your current shell process | Refresh `$env:Path` from Machine+User scope, or open a new terminal |
-| `winget install` fails/cancels with an installer exit code around 1602 | Installer tried to trigger a UAC elevation prompt that can't be answered non-interactively | Retry with `--scope user` |
-| pandoc converts markdown but images are missing from the output | pandoc resolves relative image paths from the working directory, not the markdown file's folder | Add `--resource-path=".;path\to\assets"`, or `cd` into the markdown file's folder first |
+| `winget install` reports success then the tool still isn't found (Windows) | PATH updated on disk but not in your current shell process | Refresh `$env:Path` from Machine+User scope, or open a new terminal |
+| `winget install` fails/cancels with an installer exit code around 1602 (Windows) | Installer tried to trigger a UAC elevation prompt that can't be answered non-interactively | Retry with `--scope user` |
+| A `brew`-installed tool isn't found right after installing Homebrew itself (macOS) | Homebrew's own bin directory (`/opt/homebrew/bin` Apple Silicon, `/usr/local/bin` Intel) isn't on `PATH` yet | Add the `eval "$(brew shellenv)"` line Homebrew's installer prints to `~/.zshrc`, then open a new terminal or `source ~/.zshrc` |
+| Running `git` for the first time pops up an "Install Command Line Tools" dialog (macOS) | macOS ships no `git` binary until Xcode Command Line Tools or Homebrew's git are installed | Accept the prompt and wait for it to finish, or `brew install git` to skip it |
+| pandoc converts markdown but images are missing from the output | pandoc resolves relative image paths from the working directory, not the markdown file's folder | Add `--resource-path` (`;`-separated backslash paths on Windows, `:`-separated forward-slash paths on macOS/Linux), or `cd` into the markdown file's folder first |
 | A regression script errors on a column that "should" be numeric | Newer pandas versions may store text as a `str` dtype instead of the classic `object` dtype, breaking `dtype == object` checks | Use `pandas.api.types.is_numeric_dtype(...)` instead of comparing dtype directly |
 | A statistical test (e.g. Bartlett's) throws an obscure internal array error | Some scipy versions mishandle integer-dtype input in certain test implementations | Cast the column to float before passing it to the test |
 | A subagent's JSON response has extra text before/after the array | Subagents don't have a forced-output guarantee the way a direct API tool-call does | Instruct explicitly to return *only* the JSON array with no surrounding text; strip/retry if it still wraps the output in a code fence |
@@ -406,6 +448,8 @@ For comparison, the same N in **API mode** (opt-in, direct Anthropic API calls, 
 
 ### Command cheat sheet
 
+**Windows (PowerShell):**
+
 ```
 # Refresh PATH in a new PowerShell session
 $machinePath = [System.Environment]::GetEnvironmentVariable("Path","Machine")
@@ -427,4 +471,27 @@ git push
 pandoc doc.md -o doc.docx
 pandoc doc.md -o doc.pptx
 pandoc doc.md -o doc.pdf --pdf-engine=typst --resource-path=".;assets"
+```
+
+**macOS (Terminal):**
+
+```
+# Pick up Homebrew's PATH in a new shell (if freshly installed)
+source ~/.zshrc
+
+# Create and populate a venv
+python3 -m venv .venv
+.venv/bin/python -m pip install -r scripts/requirements.txt
+
+# Git + GitHub
+git init
+git add .
+git commit -m "message"
+gh repo create <name> --private --source=. --remote=origin --push
+git push
+
+# pandoc conversions
+pandoc doc.md -o doc.docx
+pandoc doc.md -o doc.pptx
+pandoc doc.md -o doc.pdf --pdf-engine=typst --resource-path=".:assets"
 ```
