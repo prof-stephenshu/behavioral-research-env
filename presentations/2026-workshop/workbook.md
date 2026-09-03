@@ -9,7 +9,7 @@ date: "2026"
 
 **Sections 1-6** walk through one concrete, already-completed case study -- a temporal reframing savings A/B test ("$5 a day" vs. "$150 a month" framing) -- built and run end-to-end with this project's own tools: **VS Code + Claude Code** for the agentic workflow, **Python** (pandas, numpy, scipy, statsmodels) for sampling and analysis, **git/GitHub** for version control, and **pandoc** for generating this workbook, the workshop deck, and the study writeup. Those sections assume the four Skills this case study used (Stages 3, 4, 5, 7) already exist, because they do, in this repository -- you're reading how they were used, not how to build them.
 
-**Section 7 (Appendix)** zooms out from that one case study: it's a general guide to setting up this kind of **9-stage** workflow for a *different* research topic, starting from a bare repository where none of those skill files exist yet. Read Sections 1-6 first to see the pattern in action end-to-end; read the Appendix when you're ready to build your own version of it.
+**Section 7 (Appendix)** zooms out from that one case study: it's a general guide to setting up this kind of **9-stage** workflow for a *different* research topic, starting from a bare repository where none of those skill files exist yet. Read Sections 1-6 first to see the pattern in action end-to-end; read the Appendix when you're ready to build your own version of it. Section 7.6 also covers a no-cost Google alternative (Antigravity) for students without access to Claude Code.
 
 # Quick Start: the whole flow in one page
 
@@ -563,3 +563,25 @@ Before trusting a new skill on a real project, run it on a tiny throwaway exampl
 ## 7.5 What happened next in this project
 
 This project didn't stop at Stages 3-4. Once they were validated end-to-end (the N=20 pilot, then the N=400 scale-up described in the Quick Start), the same bootstrap-then-validate pattern was repeated to add Stage 5 (analysis) and Stage 7 (writeup). Stages 1, 2, 6, 8, and 9 remain reserved -- not abandoned, just not yet specified clearly enough to automate. The lesson holds at every level of this workflow: scope small, validate, then expand.
+
+## 7.6 Using a Google stack instead, at no cost
+
+> **Status check this before class.** Unlike every other section of this workbook, this one is *not* a verified case study -- nobody has run this project's workflow through Google's tools end-to-end. It's a conceptual mapping based on Google's own documentation as of **September 2026**, in a product space that has already changed twice this year: Google discontinued its previous free options (Gemini Code Assist for individuals, and Gemini CLI's free "Login with Google" path) on June 18, 2026, replacing both with the product described below. Confirm current terms before relying on this for a class.
+
+Everything in Sections 1-7.5 assumes Claude Code. If students don't have access to it, **Google Antigravity** is currently the closest free substitute -- an agentic IDE (available as its own VS Code fork, or as an extension inside regular VS Code) with a free "Individual" plan that requires no paid subscription. Google doesn't publish exact numbers, describing the free tier only as "a meaningful quota, refreshed weekly" -- plan for a lighter pilot (e.g. N=5-10, not N=400) if using it for Stage 4.
+
+What makes it a workable substitute is that its building blocks map closely onto this project's own, not just onto Claude Code's brand:
+
+| This project | Antigravity equivalent |
+|---|---|
+| VS Code + Claude Code | VS Code + the Antigravity extension, or Antigravity's own VS Code-fork IDE |
+| `.claude/skills/<name>/SKILL.md` (`name` + `description` frontmatter, `description` drives auto-invocation, optional `scripts/` folder) | `.agents/skills/<name>/SKILL.md` -- same convention: `description` is required and drives semantic auto-invocation, `scripts/` folder optional |
+| Subagents (a batch of ~10 simulated subjects per call, each with isolated context) | Antigravity's dynamic subagents -- the main agent spawns child agents on the fly, each with an isolated context window, running in parallel where possible |
+| `CLAUDE.md` project-level standing instructions (not heavily used in this project) | `GEMINI.md` (global, at `~/.gemini/`) or a project-level `.agents/rules/` folder |
+| Python, git/GitHub, pandoc | Unchanged -- none of Sections 1-6 is model-specific |
+
+**One real mechanical difference:** Claude Code subagents are spawned inline from a single chat thread. Antigravity routes multi-agent work through a separate "Mission Control / Agent Manager" surface -- dispatching Stage 4's parallel batches would look like assigning tasks in a small console, not typing one prompt into one conversation.
+
+**To switch:** install the Antigravity extension in VS Code (or Antigravity's standalone IDE) and sign in with a personal Google account -- no credit card needed for the free plan. Recreate your Stage 3/4 skill files at `.agents/skills/<name>/SKILL.md` instead of `.claude/skills/<name>/SKILL.md`, using the same bootstrap-prompt pattern from Section 7.3 (point the agent at an example skill, ask it to draft a new one in that style). Everything from Section 1.2 onward (Python, git, pandoc) stays exactly as written.
+
+**If you'd rather skip the agentic IDE entirely:** Google's raw Gemini API (via Google AI Studio) has a separate, more stable free tier with published limits (roughly 250-1,000 requests/day depending on the model, Flash-class models only, no credit card) that can be called directly from a Python script -- the same shape as this project's own opt-in "API mode" (Section 3.2). It has no agent, no Skills, and no terminal/file access of its own, but its terms are simpler and better-documented than Antigravity's.
