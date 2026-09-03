@@ -25,6 +25,29 @@ FOOTER_MARGIN_PT = 40  # keep content this far above the slide bottom
 CALLOUT_BUFFER_PT = 4  # keep content this far above a yellow callout box
 EMU_PER_PT = 12700
 
+# pandoc names code-block/inline-code runs "Courier" -- a font neither Windows
+# nor macOS actually has installed under that exact name, so each renderer
+# silently substitutes something different (LibreOffice's substitute happens
+# to be narrower than PowerPoint's), making LibreOffice-measured overflow
+# checks unreliable for code text. Normalizing to "Courier New" (a real font
+# on both platforms) makes what we measure match what viewers actually see.
+CODE_FONT_ALIASES = {"Courier"}
+CODE_FONT_REPLACEMENT = "Courier New"
+
+
+def fix_code_font(prs):
+    changed = 0
+    for slide in prs.slides:
+        for shape in slide.shapes:
+            if not shape.has_text_frame:
+                continue
+            for para in shape.text_frame.paragraphs:
+                for run in para.runs:
+                    if run.font.name in CODE_FONT_ALIASES:
+                        run.font.name = CODE_FONT_REPLACEMENT
+                        changed += 1
+    return changed
+
 
 def render_to_pdf(pptx_path, out_dir):
     def convert():
@@ -107,6 +130,13 @@ def shrink_slide(slide):
 
 def main():
     path = Path(sys.argv[1] if len(sys.argv) > 1 else "slides.pptx").resolve()
+
+    prs = Presentation(path)
+    changed = fix_code_font(prs)
+    if changed:
+        prs.save(path)
+        print(f"Normalized {changed} run(s) from 'Courier' to '{CODE_FONT_REPLACEMENT}'")
+
     with tempfile.TemporaryDirectory() as tmp:
         tmp_dir = Path(tmp)
         overflowing = set()
