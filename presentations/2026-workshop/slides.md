@@ -13,7 +13,7 @@ author: "Stephen Shu"
 
 ## Conceptual Architecture
 
-![](assets/architecture_diagram.png)
+![Claude Code shown here -- a free Google Antigravity stack maps onto this same architecture, no paid tier required (see workbook Section 7.6).](assets/architecture_diagram.png)
 
 ## What is VS Code? What is Claude Code?
 
