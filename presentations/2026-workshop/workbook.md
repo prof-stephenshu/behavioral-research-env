@@ -566,7 +566,7 @@ This project didn't stop at Stages 3-4. Once they were validated end-to-end (the
 
 ## 7.6 Using a Google stack instead, at no cost
 
-> **Status check this before class.** Unlike every other section of this workbook, this one is *not* a verified case study -- nobody has run this project's workflow through Google's tools end-to-end. It's a conceptual mapping based on Google's own documentation as of **September 2026**, in a product space that has already changed twice this year: Google discontinued its previous free options (Gemini Code Assist for individuals, and Gemini CLI's free "Login with Google" path) on June 18, 2026, replacing both with the product described below. Confirm current terms before relying on this for a class.
+> **Status check this before class.** Updated **September 3, 2026**: this has now been piloted once, end-to-end, on a toy N=10 project (branch `antigravity-pilot` in this repo) -- all four stages (design, synthetic test, analysis, writeup) completed, and every output was independently re-verified, including byte-for-byte identical results from re-running the actual analysis scripts by hand. That's real signal, not just the conceptual mapping below. It is still a *single small-N run*: behavior at realistic scale (N=100+), many parallel batches, and free-tier quota limits under sustained use are all still unconfirmed -- see `.agents/PILOT-NOTES.md` on that branch for the full dated log. This is also a product space that has already changed twice in 2026 (Google discontinued its previous free options -- Gemini Code Assist for individuals, and Gemini CLI's free "Login with Google" path -- on June 18, 2026, replacing both with the product described below), so confirm current terms before relying on this for a class.
 
 Everything in Sections 1-7.5 assumes Claude Code. If students don't have access to it, **Google Antigravity** is currently the closest free substitute -- an agentic IDE (available as its own VS Code fork, or as an extension inside regular VS Code) with a free "Individual" plan that requires no paid subscription. Google doesn't publish exact numbers, describing the free tier only as "a meaningful quota, refreshed weekly" -- plan for a lighter pilot (e.g. N=5-10, not N=400) if using it for Stage 4.
 
@@ -583,5 +583,17 @@ What makes it a workable substitute is that its building blocks map closely onto
 **One real mechanical difference:** Claude Code subagents are spawned inline from a single chat thread. Antigravity routes multi-agent work through a separate "Mission Control / Agent Manager" surface -- dispatching Stage 4's parallel batches would look like assigning tasks in a small console, not typing one prompt into one conversation.
 
 **To switch:** install the Antigravity extension in VS Code (or Antigravity's standalone IDE) and sign in with a personal Google account -- no credit card needed for the free plan. Recreate your Stage 3/4 skill files at `.agents/skills/<name>/SKILL.md` instead of `.claude/skills/<name>/SKILL.md`, using the same bootstrap-prompt pattern from Section 7.3 (point the agent at an example skill, ask it to draft a new one in that style). Everything from Section 1.2 onward (Python, git, pandoc) stays exactly as written.
+
+**Or, skip rebuilding it: get this project's already-piloted version directly from Git.** The `.agents/skills/` files described above already exist, and have already been piloted once, on a dedicated branch of this project's own repository:
+
+```
+git clone https://github.com/prof-stephenshu/behavioral-research-env.git
+cd behavioral-research-env
+git checkout antigravity-pilot
+```
+
+Then follow Sections 1.2-1.3 exactly as written (Python venv + `requirements.txt`) -- environment setup doesn't change based on which agent you use. Open the folder in VS Code with the Antigravity extension signed in, and ask it *"What skills do you have available for this project?"* before trying a real run -- it should list all four by name. `.agents/PILOT-NOTES.md` on that branch has the full dated log of what's been verified and what hasn't.
+
+**Access note:** this repository is currently **private**. Before students can clone it, the instructor needs to either add them as collaborators (repo Settings -> Collaborators and teams) or make the repository -- or a fork of just this branch -- public.
 
 **If you'd rather skip the agentic IDE entirely:** Google's raw Gemini API (via Google AI Studio) has a separate, more stable free tier with published limits (roughly 250-1,000 requests/day depending on the model, Flash-class models only, no credit card) that can be called directly from a Python script -- the same shape as this project's own opt-in "API mode" (Section 3.2). It has no agent, no Skills, and no terminal/file access of its own, but its terms are simpler and better-documented than Antigravity's.
