@@ -584,7 +584,7 @@ What makes it a workable substitute is that its building blocks map closely onto
 
 **To switch:** install the Antigravity extension in VS Code (or Antigravity's standalone IDE) and sign in with a personal Google account -- no credit card needed for the free plan. Recreate your Stage 3/4 skill files at `.agents/skills/<name>/SKILL.md` instead of `.claude/skills/<name>/SKILL.md`, using the same bootstrap-prompt pattern from Section 7.3 (point the agent at an example skill, ask it to draft a new one in that style). Everything from Section 1.2 onward (Python, git, pandoc) stays exactly as written.
 
-**Or, skip rebuilding it: get this project's already-piloted version directly from Git.** The `.agents/skills/` files described above already exist, and have already been piloted once, on a dedicated branch of this project's own repository:
+**Or, skip rebuilding it: get this project's already-piloted version directly from Git.** The `.agents/skills/` files described above already exist, and have already been piloted once, on a dedicated branch of this project's own repository, which is **public** -- no invitation or account approval needed, just clone it:
 
 ```
 git clone https://github.com/prof-stephenshu/behavioral-research-env.git
@@ -594,17 +594,6 @@ git checkout antigravity-pilot
 
 Then follow Sections 1.2-1.3 exactly as written (Python venv + `requirements.txt`) -- environment setup doesn't change based on which agent you use. Open the folder in VS Code with the Antigravity extension signed in, and ask it *"What skills do you have available for this project?"* before trying a real run -- it should list all four by name. `.agents/PILOT-NOTES.md` on that branch has the full dated log of what's been verified and what hasn't.
 
-**Access note:** this repository is currently **private** and access is managed via a collaborator list (chosen deliberately over making it public, at least for now).
-
-*Instructor side -- adding a student:*
-1. You need the student's **GitHub username** (not their email or name) -- ask them for it, or have them create a free GitHub account first if they don't have one.
-2. Repo page -> **Settings** -> **Collaborators and teams** -> **Add people** -> enter their username -> confirm.
-   (Equivalent via the `gh` CLI, if you prefer: `gh api --method PUT repos/prof-stephenshu/behavioral-research-env/collaborators/<their-username>`.)
-3. GitHub emails them an invitation. It's pending, not active, until they accept it -- check **Settings -> Manage access** to see who's accepted versus still pending.
-
-*Student side -- accepting:*
-1. Look for an email from GitHub ("prof-stephenshu invited you to behavioral-research-env") or a notification at github.com/notifications, and accept it.
-2. Once accepted, `git clone https://github.com/prof-stephenshu/behavioral-research-env.git` will work with your own GitHub credentials (the clone URL doesn't change -- access is what's gated, not the link).
-3. If clone still fails with a permission/404-style error, the invitation likely hasn't been accepted yet -- check step 1 again before assuming something is broken.
+**Access note:** this repository is public and read-only for everyone except the instructor -- anyone can clone or browse it (via the link above, or on GitHub itself), but only the instructor's own account can push changes. If you want to propose a change, the normal GitHub path is to fork the repo, commit to your fork, and open a pull request back -- nothing lands in the original repo without the instructor reviewing and merging it.
 
 **If you'd rather skip the agentic IDE entirely:** Google's raw Gemini API (via Google AI Studio) has a separate, more stable free tier with published limits (roughly 250-1,000 requests/day depending on the model, Flash-class models only, no credit card) that can be called directly from a Python script -- the same shape as this project's own opt-in "API mode" (Section 3.2). It has no agent, no Skills, and no terminal/file access of its own, but its terms are simpler and better-documented than Antigravity's.
