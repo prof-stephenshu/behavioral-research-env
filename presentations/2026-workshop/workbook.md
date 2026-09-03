@@ -408,19 +408,49 @@ For comparison, the same N in **API mode** (opt-in, direct Anthropic API calls, 
 
 # 5. Troubleshooting Appendix
 
-| Symptom | Cause | Fix |
-|---|---|---|
-| `winget install` reports success then the tool still isn't found (Windows) | PATH updated on disk but not in your current shell process | Refresh `$env:Path` from Machine+User scope, or open a new terminal |
-| `winget install` fails/cancels with an installer exit code around 1602 (Windows) | Installer tried to trigger a UAC elevation prompt that can't be answered non-interactively | Retry with `--scope user` |
-| A `brew`-installed tool isn't found right after installing Homebrew itself (macOS) | Homebrew's own bin directory (`/opt/homebrew/bin` Apple Silicon, `/usr/local/bin` Intel) isn't on `PATH` yet | Add the `eval "$(brew shellenv)"` line Homebrew's installer prints to `~/.zshrc`, then open a new terminal or `source ~/.zshrc` |
-| Running `git` for the first time pops up an "Install Command Line Tools" dialog (macOS) | macOS ships no `git` binary until Xcode Command Line Tools or Homebrew's git are installed | Accept the prompt and wait for it to finish, or `brew install git` to skip it |
-| pandoc converts markdown but images are missing from the output | pandoc resolves relative image paths from the working directory, not the markdown file's folder | Add `--resource-path` (`;`-separated backslash paths on Windows, `:`-separated forward-slash paths on macOS/Linux), or `cd` into the markdown file's folder first |
-| A regression script errors on a column that "should" be numeric | Newer pandas versions may store text as a `str` dtype instead of the classic `object` dtype, breaking `dtype == object` checks | Use `pandas.api.types.is_numeric_dtype(...)` instead of comparing dtype directly |
-| A statistical test (e.g. Bartlett's) throws an obscure internal array error | Some scipy versions mishandle integer-dtype input in certain test implementations | Cast the column to float before passing it to the test |
-| A subagent's JSON response has extra text before/after the array | Subagents don't have a forced-output guarantee the way a direct API tool-call does | Instruct explicitly to return *only* the JSON array with no surrounding text; strip/retry if it still wraps the output in a code fence |
-| `git commit` succeeds but shows a warning about name/email being auto-detected | git had no configured identity and guessed one from your username/hostname | Set it explicitly: `git config --global user.name "..."` and `git config --global user.email "..."`; amend the commit with `--reset-author` if needed |
-| `gh auth login` can't complete inside an automated/non-interactive session | The device-code/browser login flow needs a human present | Run it yourself in a real terminal window; automation can create/push repos afterward using the resulting stored credentials |
-| A binary outcome's regression coefficient has the "wrong" sign | The default coding falls back to alphabetical order when no positive category is specified | Always pass the category that should count as 1 explicitly rather than relying on a default |
+**`winget install` reports success then the tool still isn't found (Windows)**
+- Cause: PATH updated on disk but not in your current shell process
+- Fix: Refresh `$env:Path` from Machine+User scope, or open a new terminal
+
+**`winget install` fails/cancels with an installer exit code around 1602 (Windows)**
+- Cause: Installer tried to trigger a UAC elevation prompt that can't be answered non-interactively
+- Fix: Retry with `--scope user`
+
+**A `brew`-installed tool isn't found right after installing Homebrew itself (macOS)**
+- Cause: Homebrew's own bin directory (`/opt/homebrew/bin` Apple Silicon, `/usr/local/bin` Intel) isn't on `PATH` yet
+- Fix: Add the `eval "$(brew shellenv)"` line Homebrew's installer prints to `~/.zshrc`, then open a new terminal or `source ~/.zshrc`
+
+**Running `git` for the first time pops up an "Install Command Line Tools" dialog (macOS)**
+- Cause: macOS ships no `git` binary until Xcode Command Line Tools or Homebrew's git are installed
+- Fix: Accept the prompt and wait for it to finish, or `brew install git` to skip it
+
+**pandoc converts markdown but images are missing from the output**
+- Cause: pandoc resolves relative image paths from the working directory, not the markdown file's folder
+- Fix: Add `--resource-path` (`;`-separated backslash paths on Windows, `:`-separated forward-slash paths on macOS/Linux), or `cd` into the markdown file's folder first
+
+**A regression script errors on a column that "should" be numeric**
+- Cause: Newer pandas versions may store text as a `str` dtype instead of the classic `object` dtype, breaking `dtype == object` checks
+- Fix: Use `pandas.api.types.is_numeric_dtype(...)` instead of comparing dtype directly
+
+**A statistical test (e.g. Bartlett's) throws an obscure internal array error**
+- Cause: Some scipy versions mishandle integer-dtype input in certain test implementations
+- Fix: Cast the column to float before passing it to the test
+
+**A subagent's JSON response has extra text before/after the array**
+- Cause: Subagents don't have a forced-output guarantee the way a direct API tool-call does
+- Fix: Instruct explicitly to return *only* the JSON array with no surrounding text; strip/retry if it still wraps the output in a code fence
+
+**`git commit` succeeds but shows a warning about name/email being auto-detected**
+- Cause: git had no configured identity and guessed one from your username/hostname
+- Fix: Set it explicitly: `git config --global user.name "..."` and `git config --global user.email "..."`; amend the commit with `--reset-author` if needed
+
+**`gh auth login` can't complete inside an automated/non-interactive session**
+- Cause: The device-code/browser login flow needs a human present
+- Fix: Run it yourself in a real terminal window; automation can create/push repos afterward using the resulting stored credentials
+
+**A binary outcome's regression coefficient has the "wrong" sign**
+- Cause: The default coding falls back to alphabetical order when no positive category is specified
+- Fix: Always pass the category that should count as 1 explicitly rather than relying on a default
 
 ---
 

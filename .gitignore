@@ -3,4 +3,5 @@ __pycache__/
 *.pyc
 .env
 presentations/2026-workshop/render_*/
+presentations/2026-workshop/*.typ
 ~$*
