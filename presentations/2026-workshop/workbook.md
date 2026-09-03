@@ -2,7 +2,7 @@
 title: "Behavioral Research Workflow Workbook"
 subtitle: "A hands-on companion to the workshop deck -- setup, prompt templates, and troubleshooting"
 author: "Stephen Shu"
-date: "2026"
+date: "Draft: September 3, 2026"
 ---
 
 # How This Workbook Is Organized
