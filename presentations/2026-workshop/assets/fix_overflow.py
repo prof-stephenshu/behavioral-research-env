@@ -34,6 +34,35 @@ EMU_PER_PT = 12700
 CODE_FONT_ALIASES = {"Courier"}
 CODE_FONT_REPLACEMENT = "Courier New"
 
+# Slide 9's code block still overflowed in real PowerPoint even after the
+# Courier New fix -- LibreOffice's font metrics apparently still don't match
+# PowerPoint's closely enough for this slide to trust the render-based loop
+# alone. Cap it explicitly (~18% below its prior 16pt) as extra insurance.
+# Expressed as a cap (not a relative cut) so re-running this script is safe:
+# it only pulls oversized text down, never keeps shrinking on repeat runs.
+EXTRA_SAFETY_CAPS_PT = {
+    "Resulting project layout (under the hood)": 13,
+}
+
+
+def apply_extra_safety_caps(prs):
+    for slide in prs.slides:
+        title = None
+        for shape in slide.shapes:
+            if shape.has_text_frame and shape.text_frame.text.strip():
+                title = shape.text_frame.text.strip().split("\n")[0]
+                break
+        cap = EXTRA_SAFETY_CAPS_PT.get(title)
+        if cap is None:
+            continue
+        for shape in slide.shapes:
+            if is_protected(shape):
+                continue
+            for para in shape.text_frame.paragraphs:
+                for run in para.runs:
+                    if run.font.size is None or run.font.size.pt > cap:
+                        run.font.size = Pt(cap)
+
 
 def fix_code_font(prs):
     changed = 0
@@ -140,18 +169,25 @@ def main():
     with tempfile.TemporaryDirectory() as tmp:
         tmp_dir = Path(tmp)
         overflowing = set()
+        converged = False
         for iteration in range(1, MAX_ITERATIONS + 1):
             pdf_path = render_to_pdf(path, tmp_dir)
             overflowing = find_overflowing_slides(pdf_path, path)
             if not overflowing:
                 print(f"No overflow after {iteration - 1} shrink pass(es).")
-                return
+                converged = True
+                break
             print(f"Iteration {iteration}: overflow on slides {sorted(overflowing)}")
             prs = Presentation(path)
             for slide_num in overflowing:
                 shrink_slide(prs.slides[slide_num - 1])
             prs.save(path)
-        print(f"Reached max iterations ({MAX_ITERATIONS}); remaining overflow: {sorted(overflowing)}")
+        if not converged:
+            print(f"Reached max iterations ({MAX_ITERATIONS}); remaining overflow: {sorted(overflowing)}")
+
+    prs = Presentation(path)
+    apply_extra_safety_caps(prs)
+    prs.save(path)
 
 
 if __name__ == "__main__":
