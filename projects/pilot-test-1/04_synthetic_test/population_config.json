@@ -1,0 +1,10 @@
+{
+  "conditions": ["control", "treatment"],
+  "n_total": 10,
+  "allocation": "equal",
+  "variables": [
+    {"name": "age", "kind": "continuous", "role": "demographic", "mean": 35.0, "sd": 10.0, "min": 18, "max": 85, "round": true}
+  ],
+  "correlations": []
+}
+

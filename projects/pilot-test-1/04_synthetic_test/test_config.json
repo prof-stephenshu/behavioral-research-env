@@ -1,0 +1,16 @@
+{
+  "mode": "subagent",
+  "conditions": {
+    "control": "Prompt / Message:\n\"Save $5 today.\"\n\nPlease indicate your choice:\n- Not now\n- Sign Up",
+    "treatment": "Prompt / Message:\n\"Save $5 today — for your family's future.\"\n\nPlease indicate your choice:\n- Not now\n- Sign Up"
+  },
+  "outcome_variable": {
+    "name": "click_sign_up",
+    "type": "binary",
+    "options": ["Not now", "Sign Up"],
+    "description": "Whether the participant clicks the 'Sign Up' button vs choosing 'Not now'."
+  },
+  "batch_size": 5,
+  "max_tokens": 500
+}
+

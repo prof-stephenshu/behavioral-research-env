@@ -1,0 +1,11 @@
+subject_id,age,condition,click_sign_up,reasoning,_error
+S00001,38,treatment,Sign Up,"Five dollars is nothing, and seeing 'for your family's future' really caught my attention with two kids at home. Every little bit helps.",
+S00002,25,control,Not now,I don't know what this is even for and I'm not about to sign up for another random app just to save five bucks.,
+S00003,43,control,Sign Up,"Five dollars is a small amount, and I've been trying to get better about consistently putting away small change, so this seems simple enough to start.",
+S00004,44,control,Not now,I already manage my own retirement and savings accounts; a generic prompt asking me to sign up to save five dollars sounds like a gimmick.,
+S00005,18,control,Not now,"I barely have enough cash for food and gas this week, so I'm not giving up five dollars to some random prompt.",
+S00006,22,treatment,Not now,"I'm only 22 and don't have a spouse or kids, so saving for a 'family's future' doesn't really connect with my life right now.",
+S00007,36,control,Not now,"Just seeing 'Save $5 today' feels too generic and vague; without a clear reason or goal, I'm not motivated to sign up.",
+S00008,32,treatment,Sign Up,"Five dollars is easy enough to set aside, and the reminder to look out for my family's future makes it feel important to get started.",
+S00009,35,treatment,Sign Up,"With young kids to think about, starting with just five dollars feels completely doable and gives me peace of mind.",
+S00010,26,treatment,Not now,"At 26, I'm just focused on paying my own rent and bills; family planning feels too far off to commit to right now.",

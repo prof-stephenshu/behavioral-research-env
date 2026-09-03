@@ -1,0 +1,53 @@
+[
+  {
+    "subject_id": "S00001",
+    "click_sign_up": "Sign Up",
+    "reasoning": "Five dollars is nothing, and seeing 'for your family's future' really caught my attention with two kids at home. Every little bit helps."
+  },
+  {
+    "subject_id": "S00002",
+    "click_sign_up": "Not now",
+    "reasoning": "I don't know what this is even for and I'm not about to sign up for another random app just to save five bucks."
+  },
+  {
+    "subject_id": "S00003",
+    "click_sign_up": "Sign Up",
+    "reasoning": "Five dollars is a small amount, and I've been trying to get better about consistently putting away small change, so this seems simple enough to start."
+  },
+  {
+    "subject_id": "S00004",
+    "click_sign_up": "Not now",
+    "reasoning": "I already manage my own retirement and savings accounts; a generic prompt asking me to sign up to save five dollars sounds like a gimmick."
+  },
+  {
+    "subject_id": "S00005",
+    "click_sign_up": "Not now",
+    "reasoning": "I barely have enough cash for food and gas this week, so I'm not giving up five dollars to some random prompt."
+  },
+  {
+    "subject_id": "S00006",
+    "click_sign_up": "Not now",
+    "reasoning": "I'm only 22 and don't have a spouse or kids, so saving for a 'family's future' doesn't really connect with my life right now."
+  },
+  {
+    "subject_id": "S00007",
+    "click_sign_up": "Not now",
+    "reasoning": "Just seeing 'Save $5 today' feels too generic and vague; without a clear reason or goal, I'm not motivated to sign up."
+  },
+  {
+    "subject_id": "S00008",
+    "click_sign_up": "Sign Up",
+    "reasoning": "Five dollars is easy enough to set aside, and the reminder to look out for my family's future makes it feel important to get started."
+  },
+  {
+    "subject_id": "S00009",
+    "click_sign_up": "Sign Up",
+    "reasoning": "With young kids to think about, starting with just five dollars feels completely doable and gives me peace of mind."
+  },
+  {
+    "subject_id": "S00010",
+    "click_sign_up": "Not now",
+    "reasoning": "At 26, I'm just focused on paying my own rent and bills; family planning feels too far off to commit to right now."
+  }
+]
+

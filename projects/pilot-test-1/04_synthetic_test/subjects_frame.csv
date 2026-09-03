@@ -1,0 +1,11 @@
+subject_id,age,condition
+S00001,38,treatment
+S00002,25,control
+S00003,43,control
+S00004,44,control
+S00005,18,control
+S00006,22,treatment
+S00007,36,control
+S00008,32,treatment
+S00009,35,treatment
+S00010,26,treatment

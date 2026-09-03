@@ -1,0 +1,24 @@
+[
+  {
+    "batch_id": "B0001",
+    "subject_ids": [
+      "S00001",
+      "S00002",
+      "S00003",
+      "S00004",
+      "S00005"
+    ],
+    "prompt": "You are simulating multiple independent synthetic human research participants for a behavioral science experiment. Respond in character for each subject separately and independently: do not let one subject's reasoning bleed into another's, and expect people with different profiles to genuinely reach different decisions -- do not default to the same 'reasonable' answer for everyone regardless of profile. None of these subjects are an AI assistant; they are ordinary people with the traits described below (numeracy, financial literacy, loss aversion, present bias, personality, etc. as given).\n\nHere is what each condition group saw:\n\n=== CONDITION: control ===\nPrompt / Message:\n\"Save $5 today.\"\n\nPlease indicate your choice:\n- Not now\n- Sign Up\n\n=== CONDITION: treatment ===\nPrompt / Message:\n\"Save $5 today \u2014 for your family's future.\"\n\nPlease indicate your choice:\n- Not now\n- Sign Up\n\nHere are the subjects to simulate, each already assigned to one of the conditions above:\n\n--- Subject S00001 (condition: treatment) ---\n- age: 38.0\n\n--- Subject S00002 (condition: control) ---\n- age: 25.0\n\n--- Subject S00003 (condition: control) ---\n- age: 43.0\n\n--- Subject S00004 (condition: control) ---\n- age: 44.0\n\n--- Subject S00005 (condition: control) ---\n- age: 18.0\n\nFor each subject, decide how that specific person would respond and report:\n  - \"click_sign_up\": one of ['Not now', 'Sign Up'] -- Whether the participant clicks the 'Sign Up' button vs choosing 'Not now'.\n  - \"reasoning\": a brief first-person explanation in that subject's voice\n\nRespond with ONLY a JSON array, one object per subject, in this exact shape (one example subject shown), with no text before or after the array:\n\n[\n  {\n    \"subject_id\": \"S00001\",\n    \"click_sign_up\": \"Not now\",\n    \"reasoning\": \"...\"\n  }\n]"
+  },
+  {
+    "batch_id": "B0002",
+    "subject_ids": [
+      "S00006",
+      "S00007",
+      "S00008",
+      "S00009",
+      "S00010"
+    ],
+    "prompt": "You are simulating multiple independent synthetic human research participants for a behavioral science experiment. Respond in character for each subject separately and independently: do not let one subject's reasoning bleed into another's, and expect people with different profiles to genuinely reach different decisions -- do not default to the same 'reasonable' answer for everyone regardless of profile. None of these subjects are an AI assistant; they are ordinary people with the traits described below (numeracy, financial literacy, loss aversion, present bias, personality, etc. as given).\n\nHere is what each condition group saw:\n\n=== CONDITION: control ===\nPrompt / Message:\n\"Save $5 today.\"\n\nPlease indicate your choice:\n- Not now\n- Sign Up\n\n=== CONDITION: treatment ===\nPrompt / Message:\n\"Save $5 today \u2014 for your family's future.\"\n\nPlease indicate your choice:\n- Not now\n- Sign Up\n\nHere are the subjects to simulate, each already assigned to one of the conditions above:\n\n--- Subject S00006 (condition: treatment) ---\n- age: 22.0\n\n--- Subject S00007 (condition: control) ---\n- age: 36.0\n\n--- Subject S00008 (condition: treatment) ---\n- age: 32.0\n\n--- Subject S00009 (condition: treatment) ---\n- age: 35.0\n\n--- Subject S00010 (condition: treatment) ---\n- age: 26.0\n\nFor each subject, decide how that specific person would respond and report:\n  - \"click_sign_up\": one of ['Not now', 'Sign Up'] -- Whether the participant clicks the 'Sign Up' button vs choosing 'Not now'.\n  - \"reasoning\": a brief first-person explanation in that subject's voice\n\nRespond with ONLY a JSON array, one object per subject, in this exact shape (one example subject shown), with no text before or after the array:\n\n[\n  {\n    \"subject_id\": \"S00006\",\n    \"click_sign_up\": \"Not now\",\n    \"reasoning\": \"...\"\n  }\n]"
+  }
+]
