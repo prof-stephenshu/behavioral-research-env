@@ -2,5 +2,5 @@
 __pycache__/
 *.pyc
 .env
-presentations/2026-workshop/render_check*/
-presentations/2026-workshop/render_final*/
+presentations/2026-workshop/render_*/
+~$*
