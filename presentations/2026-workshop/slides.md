@@ -216,3 +216,43 @@ This project's population statistics and stimulus wording turned out to match a 
 
 - Repository: this workshop's `behavioral-research-env` project
 - Workbook handout has copy-paste prompt templates for every stage
+
+## Appendix: Bootstrapping Your Own Workflow
+
+- This talk built Stages 3-4-5-7 for one research topic -- what if you want this for a *different* one, starting from zero?
+- Same tool, same conversation-first approach: plan with Claude Code before building anything
+- The next few slides walk through that planning-and-scoping process itself
+
+## Start by planning all 9 stages
+
+- Describe your own version of *all 9 stages* to Claude Code, even the ones you won't build yet
+- Goal at this point: a shared understanding of scope, not code -- inputs, outputs, and how much judgment each stage needs
+- Treat it like any project-scoping conversation you'd have with a human collaborator, before writing a line of anything
+
+## The roadmap: build now, build next, reserved
+
+![](assets/roadmap_diagram.png)
+
+## Make the scoping call for your own project
+
+- Build first the stages with the clearest inputs -> outputs and the least open-ended judgment
+- For this project: Stages 3-4 (design -> test) qualified; Stages 1, 2, 6, 8, 9 need more conversational nuance than a fixed pipeline can give yet
+- Stages 5 and 7 weren't abandoned -- just sequenced for *after* the core loop was validated
+
+## Bootstrap prompt: draft the Skill yourself
+
+- Point Claude Code at one of this project's real skills as a style reference, and ask it to draft a new one for your topic
+- *"Here's an example SKILL.md [paste one]. Draft a new one in this style for [your stage's inputs/outputs]."*
+- **What you get back:** a draft `SKILL.md` -- review it, adjust the required-inputs list to fit your research area, save it under `.claude/skills/`
+
+## Validate before you scale
+
+- Run a tiny throwaway example first: a made-up stimulus for a design skill, N=5-10 for a synthetic-test skill
+- Check the output shape before trusting it, and iterate the skill's wording based on what comes back
+- Same pilot-before-scale discipline as the main study -- applied one level up, to the skill itself
+
+## What happened next in this project
+
+- Once Stages 3-4 were validated end-to-end (the N=20 pilot, then N=400 scale-up), the same bootstrap-then-validate pattern extended the workflow to Stage 5 (analysis) and Stage 7 (writeup)
+- Stages 1, 2, 6, 8, 9 remain reserved -- not abandoned, just not yet specified enough to automate
+- The lesson holds at every level of this workflow: scope small, validate, then expand

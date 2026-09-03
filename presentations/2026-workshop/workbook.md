@@ -234,7 +234,7 @@ __pycache__/
 
 # 3. Stage-by-Stage Guide
 
-Each stage below is a Claude Code **Skill** -- a markdown instruction file the AI agent follows. You invoke a stage by describing what you want in plain language; Claude Code figures out which skill applies (or you can name it directly, e.g. "run behavioral-design").
+Each stage below is a Claude Code **Skill** -- a markdown instruction file the AI agent follows. You invoke a stage by describing what you want in plain language; Claude Code figures out which skill applies (or you can name it directly, e.g. "run behavioral-design"). This section assumes those skill files already exist, because they do in this project -- if you're setting this up from a bare repository for a different research topic, see Section 7 for how to create them.
 
 ## 3.1 Stage 3 -- Behavioral Design (intake)
 
@@ -495,3 +495,65 @@ pandoc doc.md -o doc.docx
 pandoc doc.md -o doc.pptx
 pandoc doc.md -o doc.pdf --pdf-engine=typst --resource-path=".:assets"
 ```
+
+---
+
+# 7. Appendix: Bootstrapping Your Own N-Stage Workflow
+
+Everything above assumes the skills in Section 3 already exist -- because they do, in this project. If you're setting this up for a *different* research topic from a bare repository, this section shows how those skills get created in the first place, using the same planning-first approach as the rest of this workbook.
+
+## 7.1 Plan all 9 stages before building any of them
+
+Describe your own version of the full pipeline to Claude Code -- including stages you don't intend to build yet. The goal at this point is a shared understanding of scope, not code.
+
+**Copy-paste prompt template:**
+
+> I'm setting up a 9-stage research workflow for [YOUR RESEARCH AREA], similar in spirit to: (1) audit, (2) ideation, (3) design, (4) synthetic test, (5) analysis, (6) presentation, (7) writeup, (8) revision, (9) feedback.
+>
+> Help me sketch what each stage would need to do for my specific research area, before we build anything. For each stage: what are the inputs, what would a reasonable output look like, and how much of it seems automatable vs. requiring your judgment as the researcher each time?
+
+**What you get back:** a stage-by-stage sketch, not code -- read it and note which stages feel well-specified (clear inputs -> clear outputs, low ambiguity) versus which still feel fuzzy. That distinction drives the next step.
+
+## 7.2 Make the scoping call
+
+![](assets/roadmap_diagram.png)
+
+The roadmap this project actually used (Stages 3-4 built first, Stages 5 and 7 built next once validated, the rest reserved):
+
+| Stage | Status | Why |
+|---|---|---|
+| 3. Design | Build now | Well-specified inputs (control/treatment stimulus, population, outcome); low ambiguity |
+| 4. Synthetic test | Build now | Mechanical once Stage 3 exists: sample, assign, simulate |
+| 5. Analysis | Build next | Depends on Stage 4's output existing and being trustworthy first |
+| 7. Writeup | Build next | Depends on Stage 5's output; assembling, not deciding |
+| 1. Audit | Reserved | Needs open-ended judgment about what's worth testing -- hard to specify as a fixed procedure |
+| 2. Ideation | Reserved | Same -- creative/divergent, not a fixed input-to-output shape |
+| 6. Presentation | Reserved | Audience- and format-dependent; more conversational than proceduralizable |
+| 8. Revision | Reserved | Depends on real-world feedback this workflow doesn't yet collect |
+| 9. Feedback | Reserved | Same -- needs a live deployment loop this v1 doesn't have |
+
+**The general rule:** build the stages with the clearest inputs -> outputs first; defer the ones that need open-ended judgment until the core loop is validated.
+
+## 7.3 Bootstrap the Skill files for your first two stages
+
+Point Claude Code at one of this project's real skills as a style reference, and ask it to draft a new one for your topic.
+
+**Copy-paste prompt template:**
+
+> I want to create a Skill for [YOUR STAGE NAME, e.g. "behavioral design intake"]. Here's an existing example to match the style and structure: [PASTE THE CONTENTS OF `.claude/skills/behavioral-design/SKILL.md`].
+>
+> Please draft a new `SKILL.md` following this same pattern, for: [DESCRIBE YOUR STAGE'S REQUIRED INPUTS AND EXPECTED OUTPUT].
+
+**What you get back:** a draft `SKILL.md` -- review it critically, adjust the required-inputs list to match your actual research area, then save it to `.claude/skills/<your-skill-name>/SKILL.md`. Repeat for your second stage.
+
+## 7.4 Validate before you scale
+
+Before trusting a new skill on a real project, run it on a tiny throwaway example first:
+
+- For a design-intake-style skill: give it a made-up, low-stakes stimulus and confirm the structured output looks right
+- For a synthetic-test-style skill: run it at N=5-10 (see 4.1's token table) and spot-check a few rows of output before scaling up
+- Iterate the skill's wording based on what comes back -- this is the same pilot-before-scale discipline as Section 4's critical-steps checklist, applied one level up, to the skill itself rather than the data collection
+
+## 7.5 What happened next in this project
+
+This project didn't stop at Stages 3-4. Once they were validated end-to-end (the N=20 pilot, then the N=400 scale-up described in the Quick Start), the same bootstrap-then-validate pattern was repeated to add Stage 5 (analysis) and Stage 7 (writeup). Stages 1, 2, 6, 8, and 9 remain reserved -- not abandoned, just not yet specified clearly enough to automate. The lesson holds at every level of this workflow: scope small, validate, then expand.
